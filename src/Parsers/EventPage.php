@@ -2,8 +2,10 @@
 
 namespace Sportic\Omniresult\RaceResults\Parsers;
 
-use Sportic\Omniresult\Common\Content\ListContent;
+use Sportic\Omniresult\Common\Content\ParentListContent;
+use Sportic\Omniresult\Common\Models\Event;
 use Sportic\Omniresult\Common\Models\Race;
+use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
 
 /**
  * Class EventPage
@@ -11,6 +13,8 @@ use Sportic\Omniresult\Common\Models\Race;
  */
 class EventPage extends AbstractParser
 {
+    use HasJsonConfigTrait;
+
     protected $returnContent = [];
 
     /**
@@ -22,10 +26,24 @@ class EventPage extends AbstractParser
         $races = $this->parseRaces($configArray);
 
         $params = [
-            'records' => $races
+            'record' => $this->parseEvent($configArray),
+            'records' => $this->parseRaces($configArray)
         ];
 
         return $params;
+    }
+
+    /**
+     * @param $config
+     * @return Event
+     */
+    public function parseEvent($config)
+    {
+        $event = new Event([
+            'id' => $config['key'],
+            'name' => $config['eventname']
+        ]);
+        return $event;
     }
 
     /**
@@ -59,36 +77,13 @@ class EventPage extends AbstractParser
         $races[$listItem['Contest']]->lists[] = $listItem;
     }
 
-    /**
-     * @return array
-     */
-    protected function getConfigArray()
-    {
-        $configHtml = $this->getConfigString();
-
-        $data = json_decode($configHtml, true);
-        return $data;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    protected function getConfigString()
-    {
-        $string = $this->getResponse()->getContent();
-        $string = str_replace('jQuery(', '', $string);
-        $string = str_replace(');', '', $string);
-
-        return $string;
-    }
-
 
     /** @noinspection PhpMissingParentCallCommonInspection
      * @inheritdoc
      */
     protected function getContentClassName()
     {
-        return ListContent::class;
+        return ParentListContent::class;
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection

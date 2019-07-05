@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cfc852b3f9c173418c48e934207c4f19",
+    "content-hash": "219202af9ba853335607caa9c736b02d",
     "packages": [
         {
             "name": "bytic/goutte-phantomjs-bridge",
@@ -539,16 +539,16 @@
         },
         {
             "name": "sportic/omniresult-common",
-            "version": "1.0.36",
+            "version": "1.0.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sportic/omniresult-common.git",
-                "reference": "0208c9ad02d65fe4b1f8c818ab158b3956730bc6"
+                "reference": "0daca709d1b93dd352b6de15a570c7ea4660b4eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sportic/omniresult-common/zipball/0208c9ad02d65fe4b1f8c818ab158b3956730bc6",
-                "reference": "0208c9ad02d65fe4b1f8c818ab158b3956730bc6",
+                "url": "https://api.github.com/repos/sportic/omniresult-common/zipball/0daca709d1b93dd352b6de15a570c7ea4660b4eb",
+                "reference": "0daca709d1b93dd352b6de15a570c7ea4660b4eb",
                 "shasum": ""
             },
             "require": {
@@ -579,7 +579,7 @@
                 }
             ],
             "description": "a common client scraper for getting data from timing websites",
-            "time": "2018-11-21T08:57:30+00:00"
+            "time": "2019-07-05T11:25:53+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -3000,7 +3000,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.0",
-        "ext-dom": "*"
+        "ext-dom": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }

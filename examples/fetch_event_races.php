@@ -8,6 +8,11 @@ $parameters = [
 
 $client = new \Sportic\Omniresult\RaceResults\RaceResultsClient();
 $resultsParser = $client->event($parameters);
-$resultsData   = $resultsParser->getContent();
+$resultsData = $resultsParser->getContent();
+$races = $resultsData->getRecords();
 
-var_dump($resultsData);
+var_dump($resultsData->getRecord());
+
+foreach ($races as $id => $race) {
+    var_dump($race);
+}

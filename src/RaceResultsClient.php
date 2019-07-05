@@ -5,8 +5,8 @@ namespace Sportic\Omniresult\RaceResults;
 use Sportic\Omniresult\Common\RequestDetector\HasDetectorTrait;
 use Sportic\Omniresult\Common\TimingClient;
 use Sportic\Omniresult\RaceResults\Scrapers\EventPage;
-use Sportic\Omniresult\Trackmyrace\Scrapers\ResultPage;
-use Sportic\Omniresult\Trackmyrace\Scrapers\ResultsPage;
+use Sportic\Omniresult\RaceResults\Scrapers\ResultPage;
+use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage;
 
 /**
  * Class RaceResultsClient
@@ -26,21 +26,21 @@ class RaceResultsClient extends TimingClient
         return $this->executeScrapper(EventPage::class, $parameters);
     }
 
-//    /**
-//     * @param $parameters
-//     * @return \Sportic\Omniresult\Common\Parsers\AbstractParser|Parsers\ResultsPage
-//     */
-//    public function results($parameters)
-//    {
-//        return $this->executeScrapper(ResultsPage::class, $parameters);
-//    }
-//
-//    /**
-//     * @param $parameters
-//     * @return \Sportic\Omniresult\Common\Parsers\AbstractParser|Parsers\ResultPage
-//     */
-//    public function result($parameters)
-//    {
-//        return $this->executeScrapper(ResultPage::class, $parameters);
-//    }
+    /**
+     * @param $parameters
+     * @return \Sportic\Omniresult\Common\Parsers\AbstractParser|Parsers\ResultsPage
+     */
+    public function results($parameters)
+    {
+        return $this->executeScrapper(ResultsPage::class, $parameters);
+    }
+
+    /**
+     * @param $parameters
+     * @return \Sportic\Omniresult\Common\Parsers\AbstractParser|Parsers\ResultPage
+     */
+    public function result($parameters)
+    {
+        return $this->executeScrapper(ResultPage::class, $parameters);
+    }
 }
