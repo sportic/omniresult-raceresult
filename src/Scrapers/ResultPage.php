@@ -13,6 +13,16 @@ use Sportic\Omniresult\RaceResults\Parsers\EventPage as Parser;
 class ResultPage extends AbstractScraper
 {
     /**
+     * @param $id
+     */
+    public function setId($id)
+    {
+        $idSerialized = base64_decode($id);
+        $idParams = unserialize($idSerialized);
+        $this->initialize($idParams);
+    }
+
+    /**
      * @return mixed
      */
     public function getEventId()
