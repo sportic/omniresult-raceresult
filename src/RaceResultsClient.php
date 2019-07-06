@@ -32,6 +32,7 @@ class RaceResultsClient extends TimingClient
      */
     public function results($parameters)
     {
+        $parameters['raceClient'] = $this;
         return $this->executeScrapper(ResultsPage::class, $parameters);
     }
 

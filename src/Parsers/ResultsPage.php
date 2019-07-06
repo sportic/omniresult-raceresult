@@ -5,10 +5,13 @@ namespace Sportic\Omniresult\RaceResults\Parsers;
 use Sportic\Omniresult\Common\Content\ListContent;
 use Sportic\Omniresult\Common\Models\Result;
 use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
+use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage as Scraper;
 
 /**
  * Class ResultsPage
  * @package Sportic\Omniresult\RaceResults\Parsers
+ *
+ * @method Scraper getScraper()
  */
 class ResultsPage extends AbstractParser
 {
@@ -68,6 +71,17 @@ class ResultsPage extends AbstractParser
         if (isset($parameters['posGender'])) {
             $parameters['posGender'] = intval($parameters['posGender']);
         }
+
+        $paramsId = [
+            'eventId' => $this->getScraper()->getEventId(),
+            'key' => $this->getScraper()->getKey(),
+            'listname' => $this->getParameter('listDetails'),
+            'contest' => $this->getScraper()->getContest(),
+            'bib' => $parameters['bib'],
+        ];
+
+        $parameters['id'] = base64_encode(serialize($paramsId));
+
         $result = new Result($parameters);
         return $result;
     }

@@ -74,7 +74,7 @@ class EventPage extends AbstractParser
                 'name' => $racesArray[$listItem['Contest']]
             ]);
         }
-        $races[$listItem['Contest']]->lists[] = $listItem;
+        $races[$listItem['Contest']]->lists[$listItem['Name']] = $listItem;
     }
 
 

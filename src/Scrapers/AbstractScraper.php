@@ -33,6 +33,7 @@ abstract class AbstractScraper extends \Sportic\Omniresult\Common\Scrapers\Abstr
         $this->getRequest();
 
         return [
+            'scraper' => $this,
             'response' => $this->getClient()->getResponse(),
         ];
     }
