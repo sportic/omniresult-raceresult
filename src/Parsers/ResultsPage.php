@@ -4,6 +4,7 @@ namespace Sportic\Omniresult\RaceResults\Parsers;
 
 use Sportic\Omniresult\Common\Content\ListContent;
 use Sportic\Omniresult\Common\Models\Result;
+use Sportic\Omniresult\RaceResults\Helper;
 use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
 use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage as Scraper;
 
@@ -43,13 +44,31 @@ class ResultsPage extends AbstractParser
     {
         $return = [];
         foreach ($list as $race => $categories) {
-            foreach ($categories as $items) {
+            foreach ($categories as $listName => $items) {
+                $gender = $this->parseGenderFromListName($listName);
                 foreach ($items as $item) {
+                    $item['gender'] = $gender;
                     $return[] = $this->parseResult($item, $header);
                 }
             }
         }
         return $return;
+    }
+
+    /**
+     * @param $listName
+     * @return string
+     */
+    protected function parseGenderFromListName($listName)
+    {
+        $listName = strtolower($listName);
+        if (strpos($listName, 'female')) {
+            return 'female';
+        }
+        if (strpos($listName, 'male')) {
+            return 'male';
+        }
+        return '';
     }
 
     /**
@@ -71,6 +90,9 @@ class ResultsPage extends AbstractParser
         if (isset($parameters['posGender'])) {
             $parameters['posGender'] = intval($parameters['posGender']);
         }
+        if (isset($config['gender'])) {
+            $parameters['gender'] = $config['gender'];
+        }
 
         $paramsId = [
             'eventId' => $this->getScraper()->getEventId(),
@@ -80,7 +102,7 @@ class ResultsPage extends AbstractParser
             'bib' => $parameters['bib'],
         ];
 
-        $parameters['id'] = base64_encode(serialize($paramsId));
+        $parameters['id'] = Helper::encodeResultId($paramsId);
 
         $result = new Result($parameters);
         return $result;

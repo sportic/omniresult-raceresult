@@ -2,6 +2,7 @@
 
 namespace Sportic\Omniresult\RaceResults\Scrapers;
 
+use Sportic\Omniresult\RaceResults\Helper;
 use Sportic\Omniresult\RaceResults\Parsers\EventPage as Parser;
 
 /**
@@ -17,8 +18,7 @@ class ResultPage extends AbstractScraper
      */
     public function setId($id)
     {
-        $idSerialized = base64_decode($id);
-        $idParams = unserialize($idSerialized);
+        $idParams = Helper::decodeResultId($id);
         $this->initialize($idParams);
     }
 
