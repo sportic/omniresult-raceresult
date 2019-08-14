@@ -68,6 +68,9 @@ class EventPage extends AbstractParser
      */
     protected function parseList(&$races, $listItem, $racesArray)
     {
+        if (!$racesArray[$listItem['Contest']]) {
+            return;
+        }
         if (!isset($races[$listItem['Contest']])) {
             $races[$listItem['Contest']] = new Race([
                 'id' => $listItem['Contest'],
