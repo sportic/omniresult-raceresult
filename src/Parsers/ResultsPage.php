@@ -46,8 +46,12 @@ class ResultsPage extends AbstractParser
         foreach ($list as $race => $categories) {
             foreach ($categories as $listName => $items) {
                 $gender = $this->parseGenderFromListName($listName);
+                $category = Helper::isListCategory($listName) ? $this->parseCategoryFromListName($listName) : false;
                 foreach ($items as $item) {
                     $item['gender'] = $gender;
+                    if ($category) {
+                        $item['category'] = $category;
+                    }
                     $return[] = $this->parseResult($item, $header);
                 }
             }
@@ -72,6 +76,19 @@ class ResultsPage extends AbstractParser
     }
 
     /**
+     * @param $listName
+     * @return string
+     */
+    protected function parseCategoryFromListName($listName)
+    {
+        $numbers = range(1, 9);
+        foreach ($numbers as $digit) {
+            $listName = str_replace('#' . $digit . '_', '', $listName);
+        }
+        return $listName;
+    }
+
+    /**
      * @param $config
      * @param $header
      * @return Result
@@ -79,6 +96,13 @@ class ResultsPage extends AbstractParser
     protected function parseResult($config, $header)
     {
         $parameters = [];
+
+        foreach (['category', 'gender'] as $field) {
+            if (isset($config[$field])) {
+                $parameters[$field] = $config[$field];
+            }
+        }
+
         foreach ($header as $key => $field) {
             if (isset($config[$key + 1])) {
                 $parameters[$field] = $config[$key + 1];
@@ -90,9 +114,7 @@ class ResultsPage extends AbstractParser
         if (isset($parameters['posGender'])) {
             $parameters['posGender'] = intval($parameters['posGender']);
         }
-        if (isset($config['gender'])) {
-            $parameters['gender'] = $config['gender'];
-        }
+
 
         $paramsId = [
             'eventId' => $this->getScraper()->getEventId(),
@@ -133,6 +155,7 @@ class ResultsPage extends AbstractParser
     {
         return [
             'WithStatus([AgeGroupRankp])' => 'posCategory',
+            'AgeGroupRank' => 'posCategory',
             'WithStatus([GenderRankp])' => 'posGender',
             'GenderRank' => 'posGender',
             'BIB' => 'bib',
@@ -140,6 +163,7 @@ class ResultsPage extends AbstractParser
             'GenderMF' => 'gender',
             'AGEGROUPNAMESHORT1' => 'category',
             'Chip Time' => 'time',
+            'TIMETEXT300' => 'time',
             'TIMETEXT' => 'time_gross',
         ];
     }

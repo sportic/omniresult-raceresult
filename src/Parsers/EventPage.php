@@ -68,7 +68,7 @@ class EventPage extends AbstractParser
      */
     protected function parseList(&$races, $listItem, $racesArray)
     {
-        if (!$racesArray[$listItem['Contest']]) {
+        if (!isset($racesArray[$listItem['Contest']])) {
             return;
         }
         if (!isset($races[$listItem['Contest']])) {

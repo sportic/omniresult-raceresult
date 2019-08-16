@@ -68,7 +68,7 @@ abstract class AbstractPageTest extends AbstractTest
                 TEST_FIXTURE_PATH . DS . 'Parsers' . DS . $fixturePath . '.jsonp'
             )
         );
-
+        $parser->setScraper($scrapper);
         $parser->initialize(['response' => $response]);
 
         $parametersParsed = $parser->getContent();
