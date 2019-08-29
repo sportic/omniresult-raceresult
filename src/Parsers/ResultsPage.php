@@ -162,8 +162,11 @@ class ResultsPage extends AbstractParser
             'DisplayName' => 'fullName',
             'GenderMF' => 'gender',
             'AGEGROUPNAMESHORT1' => 'category',
+            'AGEGROUPNAME1' => 'category',
+            'CLUB' => 'club',
             'Chip Time' => 'time',
             'TIMETEXT300' => 'time',
+            'GunTime' => 'time_gross',
             'TIMETEXT' => 'time_gross',
         ];
     }
