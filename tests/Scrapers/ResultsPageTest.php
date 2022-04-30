@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Tests\Scrapers;
 
@@ -31,7 +32,7 @@ class ResultsPageTest extends AbstractPageTest
         $scrapper->execute();
         $content = $scrapper->getClient()->getResponse()->getContent();
 
-        static::assertContains('Maria Magdalena Veliscu', $content);
+        static::assertStringContainsString('Maria Magdalena Veliscu', $content);
 //        file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default.jsonp', $content);
     }
 
@@ -50,7 +51,7 @@ class ResultsPageTest extends AbstractPageTest
         $scrapper->execute();
         $content = $scrapper->getClient()->getResponse()->getContent();
 
-        static::assertContains('Ioana Ani', $content);
+        static::assertStringContainsString('Ioana Ani', $content);
         file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default-agegroup.jsonp', $content);
     }
 

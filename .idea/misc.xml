@@ -51,6 +51,11 @@
       </profile-state>
     </entry>
   </component>
+  <component name="SwUserDefinedSpecifications">
+    <option name="specTypeByUrl">
+      <map />
+    </option>
+  </component>
   <component name="masterDetails">
     <states>
       <state key="Copyright.UI">
