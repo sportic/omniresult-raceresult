@@ -1,14 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults;
 
-use Sportic\Omniresult\Common\RequestDetector\AbstractRequestDetector;
+use Sportic\Omniresult\Common\RequestDetector\Detectors\AbstractUrlDetector;
 
 /**
  * Class RequestDetector
  * @package Sportic\Omniresult\RaceResults
  */
-class RequestDetector extends AbstractRequestDetector
+class RequestDetector extends AbstractUrlDetector
 {
     protected $path = null;
     protected $pathParts = null;

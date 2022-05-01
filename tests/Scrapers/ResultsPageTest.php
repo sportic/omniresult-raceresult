@@ -26,11 +26,7 @@ class ResultsPageTest extends AbstractPageTest
 
     public function testGetCrawlerHtml()
     {
-        $scrapper = $this->generateScraper();
-
-        static::assertInstanceOf(ResultsPage::class, $scrapper);
-        $scrapper->execute();
-        $content = $scrapper->getClient()->getResponse()->getContent();
+        $content = $this->scrapeContents([]);
 
         static::assertStringContainsString('Maria Magdalena Veliscu', $content);
 //        file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default.jsonp', $content);
@@ -38,49 +34,29 @@ class ResultsPageTest extends AbstractPageTest
 
     public function testGetCrawlerHtmlAgeGroup()
     {
-        $params = [
+        $content = $this->scrapeContents([
             'eventId' => '126187',
             'key' => 'd184aa4d1b70c5f81cb4422e09088906',
             'contest' => '2',
             'listname' => 'Result Lists|Age Group Results'
-        ];
-
-        $scrapper = $this->generateScraper($params);
-
-        static::assertInstanceOf(ResultsPage::class, $scrapper);
-        $scrapper->execute();
-        $content = $scrapper->getClient()->getResponse()->getContent();
+        ]);
 
         static::assertStringContainsString('Ioana Ani', $content);
         file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default-agegroup.jsonp', $content);
     }
 
-    /**
-     * @param array $parameters
-     * @return Crawler
-     */
-    protected function getCrawler($parameters = [])
+    protected function generateScraperDefaultParams(): array
     {
-        $scraper = $this->generateScraper($parameters);
-        return $scraper->getCrawler();
-    }
-
-    /**
-     * @param array $parameters
-     * @return ResultsPage
-     */
-    protected function generateScraper($parameters = [])
-    {
-        $default = [
+        return [
             'eventId' => '122816',
             'key' => 'a615286c279b6fcfaf20b3816f2e2943',
             'contest' => '1',
             'listname' => 'Result Lists|Gender Results'
         ];
-        $params = count($parameters) ? $parameters : $default;
-        $params['raceClient'] = new \Sportic\Omniresult\RaceResults\RaceResultsClient();
-        $scraper = new ResultsPage();
-        $scraper->initialize($params);
-        return $scraper;
+    }
+
+    protected function generateScraperClass() : string
+    {
+        return ResultsPage::class;
     }
 }

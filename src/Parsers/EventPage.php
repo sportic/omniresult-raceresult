@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Parsers;
 
@@ -23,7 +24,6 @@ class EventPage extends AbstractParser
     protected function generateContent()
     {
         $configArray = $this->getConfigArray();
-        $races = $this->parseRaces($configArray);
 
         $params = [
             'record' => $this->parseEvent($configArray),
@@ -68,16 +68,20 @@ class EventPage extends AbstractParser
      */
     protected function parseList(&$races, $listItem, $racesArray)
     {
-        if (!isset($racesArray[$listItem['Contest']])) {
+        $listContest = $listItem['Contest'];
+        if ($listContest < 1 && count($racesArray) == 1) {
+            $listContest = array_key_first($racesArray);
+        }
+        if (!isset($racesArray[$listContest])) {
             return;
         }
-        if (!isset($races[$listItem['Contest']])) {
-            $races[$listItem['Contest']] = new Race([
+        if (!isset($races[$listContest])) {
+            $races[$listContest] = new Race([
                 'id' => $listItem['Contest'],
-                'name' => $racesArray[$listItem['Contest']]
+                'name' => $racesArray[$listContest]
             ]);
         }
-        $races[$listItem['Contest']]->lists[$listItem['Name']] = $listItem;
+        $races[$listContest]->lists[$listItem['Name']] = $listItem;
     }
 
 
