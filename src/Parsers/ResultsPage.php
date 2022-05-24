@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Parsers;
 
@@ -7,6 +8,7 @@ use Sportic\Omniresult\Common\Models\Result;
 use Sportic\Omniresult\RaceResults\Helper;
 use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
 use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage as Scraper;
+use Sportic\Omniresult\RaceResults\Utility\CountryFlag;
 
 /**
  * Class ResultsPage
@@ -93,7 +95,7 @@ class ResultsPage extends AbstractParser
      * @param $header
      * @return Result
      */
-    protected function parseResult($config, $header)
+    protected function parseResult($config, $header): Result
     {
         $parameters = [];
 
@@ -114,8 +116,10 @@ class ResultsPage extends AbstractParser
         if (isset($parameters['posGender'])) {
             $parameters['posGender'] = intval($parameters['posGender']);
         }
-
-
+        if (isset($parameters['country_flag'])) {
+            $parameters['country'] = CountryFlag::from($parameters['country_flag']);
+            unset($parameters['country_flag']);
+        }
         $paramsId = [
             'eventId' => $this->getScraper()->getEventId(),
             'key' => $this->getScraper()->getKey(),
@@ -126,8 +130,7 @@ class ResultsPage extends AbstractParser
 
         $parameters['id'] = Helper::encodeResultId($paramsId);
 
-        $result = new Result($parameters);
-        return $result;
+        return new Result($parameters);
     }
 
     /**
@@ -137,12 +140,12 @@ class ResultsPage extends AbstractParser
     protected function parseHeader($config)
     {
         $fields = [];
-        foreach ($config as $i => $configField) {
+        foreach ($config as $key => $configField) {
             $fieldMap = self::getLabelMaps();
             $fieldName = $configField['Expression'];
-            $labelFind = isset($fieldMap[$fieldName]) ? $fieldMap[$fieldName] : null;
+            $labelFind = $fieldMap[$fieldName] ?? null;
             if ($labelFind) {
-                $fields[$i] = $labelFind;
+                $fields[$key] = $labelFind;
             }
         }
         return $fields;
@@ -155,15 +158,19 @@ class ResultsPage extends AbstractParser
     {
         return [
             'WithStatus([AgeGroupRankp])' => 'posCategory',
+            'WithStatus([AgeGroupRank.p])' => 'posCategory',
             'AgeGroupRank' => 'posCategory',
             'WithStatus([GenderRankp])' => 'posGender',
             'GenderRank' => 'posGender',
             'BIB' => 'bib',
+            'FLNAME' => 'fullNameFL',
             'DisplayName' => 'fullName',
             'GenderMF' => 'gender',
             'AGEGROUPNAMESHORT1' => 'category',
             'AGEGROUPNAME1' => 'category',
             'CLUB' => 'club',
+            'NATION.FLAG' => 'country_flag',
+            'TIME' => 'time',
             'Chip Time' => 'time',
             'TIMETEXT300' => 'time',
             'GunTime' => 'time_gross',
