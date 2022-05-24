@@ -4,10 +4,10 @@ declare(strict_types=1);
 require '../vendor/autoload.php';
 
 $parameters = [
-    'eventId' => '122816',
-    'key' => 'a615286c279b6fcfaf20b3816f2e2943',
-    'contest' => '1',
-    'listname' => 'Result Lists|Gender Results'
+    'eventId' => '202895',
+    'key' => '262bb03c932a94f5829e4a3d9103db14',
+    'contest' => '4',
+    'listname' => 'Result Lists|Age Group Results'
 ];
 
 $client = new \Sportic\Omniresult\RaceResults\RaceResultsClient();

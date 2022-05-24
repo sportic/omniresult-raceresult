@@ -110,12 +110,7 @@ class ResultsPage extends AbstractParser
                 $parameters[$field] = $config[$key + 1];
             }
         }
-        if (isset($parameters['posCategory'])) {
-            $parameters['posCategory'] = intval($parameters['posCategory']);
-        }
-        if (isset($parameters['posGender'])) {
-            $parameters['posGender'] = intval($parameters['posGender']);
-        }
+
         if (isset($parameters['country_flag'])) {
             $parameters['country'] = CountryFlag::from($parameters['country_flag']);
             unset($parameters['country_flag']);
