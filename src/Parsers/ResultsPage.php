@@ -9,6 +9,7 @@ use Sportic\Omniresult\RaceResults\Helper;
 use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
 use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage as Scraper;
 use Sportic\Omniresult\RaceResults\Utility\CountryFlag;
+use Sportic\Omniresult\RaceResults\Utility\Expression;
 
 /**
  * Class ResultsPage
@@ -136,41 +137,12 @@ class ResultsPage extends AbstractParser
     {
         $fields = [];
         foreach ($config as $key => $configField) {
-            $fieldMap = self::getLabelMaps();
-            $fieldName = $configField['Expression'];
-            $labelFind = $fieldMap[$fieldName] ?? null;
+            $labelFind = Expression::toResultField($configField['Expression']);
             if ($labelFind) {
                 $fields[$key] = $labelFind;
             }
         }
         return $fields;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getLabelMaps()
-    {
-        return [
-            'WithStatus([AgeGroupRankp])' => 'posCategory',
-            'WithStatus([AgeGroupRank.p])' => 'posCategory',
-            'AgeGroupRank' => 'posCategory',
-            'WithStatus([GenderRankp])' => 'posGender',
-            'GenderRank' => 'posGender',
-            'BIB' => 'bib',
-            'FLNAME' => 'fullNameFL',
-            'DisplayName' => 'fullName',
-            'GenderMF' => 'gender',
-            'AGEGROUPNAMESHORT1' => 'category',
-            'AGEGROUPNAME1' => 'category',
-            'CLUB' => 'club',
-            'NATION.FLAG' => 'country_flag',
-            'TIME' => 'time',
-            'Chip Time' => 'time',
-            'TIMETEXT300' => 'time',
-            'GunTime' => 'time_gross',
-            'TIMETEXT' => 'time_gross',
-        ];
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection
