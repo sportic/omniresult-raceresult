@@ -137,6 +137,7 @@ class ResultsPage extends AbstractParser
     {
         $fields = [];
         foreach ($config as $key => $configField) {
+            var_dump($configField['Expression']);
             $labelFind = Expression::toResultField($configField['Expression']);
             if ($labelFind) {
                 $fields[$key] = $labelFind;

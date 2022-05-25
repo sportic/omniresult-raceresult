@@ -13,6 +13,7 @@ class Expression
         'withstatus([agegrouprank.p])' => 'posCategory',
         'agegrouprank' => 'posCategory',
         'withstatus([genderrankp])' => 'posGender',
+        'withstatus([genderrank.p])' => 'posGender',
         'genderrank' => 'posGender',
         'bib' => 'bib',
         'flname' => 'fullNameFL',
