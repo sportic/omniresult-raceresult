@@ -44,6 +44,14 @@ class EventPageTest extends AbstractPageTest
         file_put_contents(TEST_FIXTURE_PATH . '/Parsers/EventPage/single_list.jsonp', $content);
     }
 
+    public function test_scrape_multiple_race_in_same_list()
+    {
+        $content = $this->scrapeContents(['eventId' => "191697"]);
+
+        static::assertStringContainsString('ee33e1d12408dbf080b5d33c9356a971', $content);
+        file_put_contents(TEST_FIXTURE_PATH . '/Parsers/EventPage/multiple_race_in_same_list.jsonp', $content);
+    }
+
     #[ArrayShape(['eventId' => "string"])]
     protected function generateScraperDefaultParams(): array
     {

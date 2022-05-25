@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Scrapers;
 
@@ -12,6 +13,8 @@ use Sportic\Omniresult\RaceResults\Parsers\EventPage as Parser;
  */
 class ResultsPage extends AbstractScraper
 {
+    protected $racesData = null;
+
     /**
      * @return mixed
      */
@@ -45,16 +48,30 @@ class ResultsPage extends AbstractScraper
     }
 
     /**
+     * @param string $name
+     * @return void
+     */
+    public function setListName(string $name)
+    {
+        $this->setParameter('listname', urldecode($name));
+    }
+
+    /**
      * @return string
      */
     public function getCrawlerUri()
     {
+        $contest = $this->getContest();
+
+        $races = $this->racesData();
+        $list = $races[$contest]->lists[$this->getListName()];
+
         return $this->getCrawlerUriHost()
             . '/RRPublish/data/list.php?callback=jQuery&page=results'
             . '&eventid=' . $this->getEventId()
             . '&key=' . $this->getKey()
-            . '&listname=' . $this->getListName()
-            . '&contest=' . $this->getContest();
+            . '&listname=' . urlencode($this->getListName())
+            . '&contest=' . $list['Contest'];
     }
 
 
@@ -68,13 +85,23 @@ class ResultsPage extends AbstractScraper
         $currentListName = $this->getListName();
         $contest = $this->getContest();
 
-        $dataEvent = $this->getParameter('raceClient')->event(['eventId' => $this->getEventId()])->getContent();
-        $races = $dataEvent ->getRecords();
+        $races = $this->racesData();
 
-        $list = $races[$contest]->lists[$currentListName];
-
-        $data['listDetails'] = $list['Details'];
+        $data['race'] = $races[$contest];
+        $data['listDetails'] = $data['race']->lists[$currentListName]['Details'];
 
         return $data;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function racesData()
+    {
+        if ($this->racesData === null) {
+            $dataEvent = $this->getParameter('raceClient')->event(['eventId' => $this->getEventId()])->getContent();
+            $this->racesData = $dataEvent->getRecords();
+        }
+        return $this->racesData;
     }
 }

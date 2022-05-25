@@ -13,5 +13,3 @@ $parameters = [
 $client = new \Sportic\Omniresult\RaceResults\RaceResultsClient();
 $resultsParser = $client->results($parameters);
 $resultsData = $resultsParser->getContent();
-
-var_dump($resultsData->getRecords());

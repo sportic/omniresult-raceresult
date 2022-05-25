@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace Sportic\Omniresult\RaceResults\Parsers;
 
 use Sportic\Omniresult\Common\Content\ListContent;
+use Sportic\Omniresult\Common\Models\Race;
 use Sportic\Omniresult\Common\Models\Result;
 use Sportic\Omniresult\RaceResults\Helper;
 use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
 use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage as Scraper;
 use Sportic\Omniresult\RaceResults\Utility\CountryFlag;
 use Sportic\Omniresult\RaceResults\Utility\Expression;
+use Sportic\Omniresult\RaceResults\Utility\Races;
 
 /**
  * Class ResultsPage
@@ -21,21 +23,28 @@ class ResultsPage extends AbstractParser
 {
     use HasJsonConfigTrait;
 
-    protected $header = null;
+    protected array $header = [];
+
+    protected ?Race $race = null;
+
+    protected function setRace(?Race $race)
+    {
+        $this->race= $race;
+    }
 
     /**
      * @return array
      */
-    protected function generateContent()
+    protected function generateContent(): array
     {
         $configArray = $this->getConfigArray();
-        $header = $this->parseHeader($configArray['list']['Fields']);
-        $results = $this->parseResults($configArray['data'], $header);
 
-        $params = [
+        $this->header = $this->parseHeader($configArray['list']['Fields']);
+        $results = $this->parseResults($configArray['data']);
+
+        return [
             'records' => $results
         ];
-        return $params;
     }
 
     /**
@@ -43,23 +52,37 @@ class ResultsPage extends AbstractParser
      * @param $header
      * @return array
      */
-    protected function parseResults($list, $header)
+    protected function parseResults($list): array
     {
         $return = [];
+        $raceName = Races::dataName($this->race);
         foreach ($list as $race => $categories) {
-            foreach ($categories as $listName => $items) {
-                $gender = $this->parseGenderFromListName($listName);
-                $category = Helper::isListCategory($listName) ? $this->parseCategoryFromListName($listName) : false;
-                foreach ($items as $item) {
-                    $item['gender'] = $gender;
-                    if ($category) {
-                        $item['category'] = $category;
-                    }
-                    $return[] = $this->parseResult($item, $header);
-                }
+            if ($raceName && $race !== $raceName) {
+                continue;
             }
+            $this->parseResultsInCategory($return, $categories);
         }
         return $return;
+    }
+
+    /**
+     * @param $return
+     * @param $categories
+     * @return void
+     */
+    protected function parseResultsInCategory(&$return, $categories)
+    {
+        foreach ($categories as $listName => $items) {
+            $gender = $this->parseGenderFromListName($listName);
+            $category = Helper::isListCategory($listName) ? $this->parseCategoryFromListName($listName) : false;
+            foreach ($items as $item) {
+                $item['gender'] = $gender;
+                if ($category) {
+                    $item['category'] = $category;
+                }
+                $return[] = $this->parseResult($item);
+            }
+        }
     }
 
     /**
@@ -96,7 +119,7 @@ class ResultsPage extends AbstractParser
      * @param $header
      * @return Result
      */
-    protected function parseResult($config, $header): Result
+    protected function parseResult($config): Result
     {
         $parameters = [];
 
@@ -106,7 +129,7 @@ class ResultsPage extends AbstractParser
             }
         }
 
-        foreach ($header as $key => $field) {
+        foreach ($this->header as $key => $field) {
             if (isset($config[$key + 1])) {
                 $parameters[$field] = $config[$key + 1];
             }
@@ -133,7 +156,7 @@ class ResultsPage extends AbstractParser
      * @param $config
      * @return array
      */
-    protected function parseHeader($config)
+    protected function parseHeader($config): array
     {
         $fields = [];
         foreach ($config as $key => $configField) {

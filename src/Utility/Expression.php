@@ -24,6 +24,7 @@ class Expression
         'club' => 'club',
         'nation.flag' => 'country_flag',
         'time' => 'time',
+        'finish.chip' => 'time',
         'chiptime' => 'time',
         'timetext300' => 'time',
         'guntime' => 'time_gross',

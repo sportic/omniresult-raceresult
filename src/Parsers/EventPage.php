@@ -55,6 +55,12 @@ class EventPage extends AbstractParser
         $racesArray = $config['contests'];
         $listArray = $config['lists'];
         $races = [];
+        foreach ($racesArray as $idRace => $name) {
+            $races[$idRace] = new Race([
+                'id' => $idRace,
+                'name' => $name
+            ]);
+        }
         foreach ($listArray as $listItem) {
             $this->parseList($races, $listItem, $racesArray);
         }
@@ -62,13 +68,19 @@ class EventPage extends AbstractParser
     }
 
     /**
-     * @param $races
+     * @param Race[] $races
      * @param $listItem
      * @param $racesArray
      */
     protected function parseList(&$races, $listItem, $racesArray)
     {
         $listContest = $listItem['Contest'];
+        if ($listContest == 0) {
+            foreach ($races as $idRace => $race) {
+                $races[$idRace]->lists[$listItem['Name']] = $listItem;
+            }
+            return;
+        }
         if ($listContest < 1 && count($racesArray) == 1) {
             $listContest = array_key_first($racesArray);
         }

@@ -19,7 +19,7 @@ class ResultsPageTest extends AbstractPageTest
         static::assertInstanceOf(Crawler::class, $crawler);
 
         static::assertSame(
-            'https://my.raceresult.com/RRPublish/data/list.php?callback=jQuery&page=results&eventid=122816&key=a615286c279b6fcfaf20b3816f2e2943&listname=Result Lists|Gender Results&contest=1',
+            'https://my.raceresult.com/RRPublish/data/list.php?callback=jQuery&page=results&eventid=122816&key=a615286c279b6fcfaf20b3816f2e2943&listname=Result+Lists%7CGender+Results&contest=1',
             $crawler->getUri()
         );
     }
