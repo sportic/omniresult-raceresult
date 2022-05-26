@@ -43,8 +43,29 @@ class EventPageTest extends AbstractPageTest
         /** @var Race[] $records */
         $records = $parametersParsed->getRecords();
         self::assertCount(1, $records);
-
     }
+
+    public function test_multiple_race_in_same_list()
+    {
+        $parametersParsed = $this->generateParsedParameters('multiple_race_in_same_list');
+
+        /** @var Event::class $record */
+        $record = $parametersParsed->getRecord();
+        self::assertInstanceOf(Event::class, $record);
+
+        /** @var Race[] $records */
+        $records = $parametersParsed->getRecords();
+        self::assertCount(2, $records);
+
+        $firstRace = current($records);
+        self::assertInstanceOf(Race::class, $firstRace);
+        self::assertCount(3, $firstRace->lists);
+    }
+
+    /**
+     * @param $path
+     * @return mixed
+     */
     protected function generateParsedParameters($path)
     {
         return static::initParserFromFixturesJsonp(

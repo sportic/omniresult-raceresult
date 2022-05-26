@@ -11,6 +11,7 @@ use Sportic\Omniresult\RaceResults\Parsers\Traits\HasJsonConfigTrait;
 use Sportic\Omniresult\RaceResults\Scrapers\ResultsPage as Scraper;
 use Sportic\Omniresult\RaceResults\Utility\CountryFlag;
 use Sportic\Omniresult\RaceResults\Utility\Expression;
+use Sportic\Omniresult\RaceResults\Utility\RaceCategories;
 use Sportic\Omniresult\RaceResults\Utility\Races;
 
 /**
@@ -74,7 +75,7 @@ class ResultsPage extends AbstractParser
     {
         foreach ($categories as $listName => $items) {
             $gender = $this->parseGenderFromListName($listName);
-            $category = Helper::isListCategory($listName) ? $this->parseCategoryFromListName($listName) : false;
+            $category = RaceCategories::isListCategory($listName) ? RaceCategories::fromListName($listName) : false;
             foreach ($items as $item) {
                 $item['gender'] = $gender;
                 if ($category) {
@@ -99,19 +100,6 @@ class ResultsPage extends AbstractParser
             return 'male';
         }
         return '';
-    }
-
-    /**
-     * @param $listName
-     * @return string
-     */
-    protected function parseCategoryFromListName($listName)
-    {
-        $numbers = range(1, 9);
-        foreach ($numbers as $digit) {
-            $listName = str_replace('#' . $digit . '_', '', $listName);
-        }
-        return $listName;
     }
 
     /**

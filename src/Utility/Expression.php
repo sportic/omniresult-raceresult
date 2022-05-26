@@ -21,6 +21,7 @@ class Expression
         'gendermf' => 'gender',
         'agegroupnameshort1' => 'category',
         'agegroupname1' => 'category',
+        'agegroup.name' => 'category',
         'club' => 'club',
         'nation.flag' => 'country_flag',
         'time' => 'time',

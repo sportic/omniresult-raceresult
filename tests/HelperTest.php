@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Tests;
 
-use Sportic\Omniresult\RaceResults\Helper;
+use Sportic\Omniresult\RaceResults\Utility\RaceCategories;
 
 /**
  * Class HelperTest
@@ -17,13 +18,13 @@ class HelperTest extends AbstractTest
      */
     public function testIsListCategory($name, $result)
     {
-        self::assertSame($result, Helper::isListCategory($name));
+        self::assertSame($result, RaceCategories::isListCategory($name));
     }
 
     /**
      * @return array
      */
-    public function dataIsListCategory()
+    public function dataIsListCategory(): array
     {
         return [
             ['Male', false],
