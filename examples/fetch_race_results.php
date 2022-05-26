@@ -6,8 +6,8 @@ require '../vendor/autoload.php';
 $parameters = [
     'eventId' => '185603',
     'key' => 'a8adcdabf3d270ca1cb5f11c30b914d4',
-    'contest' => '1',
-    'listname' => 'Result+Lists%7CGender+Results'
+    'contest' => '2',
+    'listname' => 'Result+Lists%7CAge+Group+Results'
 ];
 
 $client = new \Sportic\Omniresult\RaceResults\RaceResultsClient();

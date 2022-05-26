@@ -56,9 +56,10 @@ class ResultsPage extends AbstractParser
     protected function parseResults($list): array
     {
         $return = [];
-        $raceName = Races::dataName($this->race);
-        foreach ($list as $race => $categories) {
-            if ($raceName && $race !== $raceName) {
+        $raceName = $this->race ? $this->race->getName() : null;
+        foreach ($list as $raceList => $categories) {
+            $raceList = Races::fromDataName($raceList);
+            if ($raceName && $raceList !== $raceName) {
                 continue;
             }
             $this->parseResultsInCategory($return, $categories);

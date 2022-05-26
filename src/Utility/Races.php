@@ -17,4 +17,13 @@ class Races
         }
         return '#' . $race->getId() . '_' . $race->getName();
     }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function fromDataName(string $name): string
+    {
+        return preg_replace('$^#(\d{1,2})_$','', $name);
+    }
 }
