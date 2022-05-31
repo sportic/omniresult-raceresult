@@ -17,6 +17,7 @@ class Expression
         'genderrank' => 'posGender',
         'bib' => 'bib',
         'flname' => 'fullNameFL',
+        'lfname' => 'fullNameLF',
         'displayname' => 'fullName',
         'gendermf' => 'gender',
         'agegroupnameshort1' => 'category',
