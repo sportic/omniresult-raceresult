@@ -18,7 +18,7 @@ class Expression
         'bib' => 'bib',
         'flname' => 'fullNameFL',
         'lfname' => 'fullNameLF',
-        'LASTNAME' => 'firstName',
+        'lastname' => 'firstName',
         'displayname' => 'fullName',
         'gendermf' => 'gender',
         'agegroupnameshort1' => 'category',
