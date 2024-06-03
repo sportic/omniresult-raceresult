@@ -59,8 +59,9 @@ class EventPage extends AbstractScraper
      */
     public function getCrawlerUri()
     {
+        // https://my.raceresult.com/191697/RRPublish/data/config?page=results&noVisitor=1
         return $this->getCrawlerUriHost()
-            . '/RRPublish/data/config.php?callback=jQuery&page=results&eventid='
-            . $this->getEventId();
+            . '/' . $this->getEventId()
+            . '/RRPublish/data/config?page=results&noVisitor=1';
     }
 }

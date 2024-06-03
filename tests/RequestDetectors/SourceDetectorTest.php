@@ -3,6 +3,7 @@
 namespace Sportic\Omniresult\RaceResults\Tests\RequestDetectors;
 
 use Sportic\Omniresult\Common\RequestDetector\DetectorResult;
+use Sportic\Omniresult\Common\RequestDetector\Detectors\AbstractSourceDetector;
 use Sportic\Omniresult\RaceResults\RequestDetectors\SourceDetector;
 use Sportic\Omniresult\RaceResults\Tests\AbstractTest;
 use Symfony\Component\DomCrawler\Crawler;
@@ -13,19 +14,25 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class SourceDetectorTest extends AbstractTest
 {
-    public function testDetect()
+    public static function dataDetect()
     {
-        $crawler = new Crawler(null, 'https://my-run.ro/wizz-air-cluj-napoca-marathon-2019-rezultate/');
-        $crawler->addContent(
-            file_get_contents(
-                TEST_FIXTURE_PATH . '/RequestDetectors/withTags.html'
-            ),
-            'text/html;charset=utf-8'
-        );
+        return [
+            ['https://my-run.ro/wizz-air-cluj-napoca-marathon-2019-rezultate/','event', ['eventid' => 122816]],
+            ['https://my-run.ro/honey-run-2024-rezultate/','event', ['eventid' => 293308]],
+        ];
+    }
+
+    /**
+     * @dataProvider dataDetect
+     * @return void
+     */
+    public function testDetect($url, $action, $params)
+    {
+        $crawler = AbstractSourceDetector::generateCrawler($url);
 
         $result = SourceDetector::detect($crawler);
         self::assertInstanceOf(DetectorResult::class, $result);
-        self::assertSame('event', $result->getAction());
-        self::assertSame(['eventid' => 122816], $result->getParams());
+        self::assertSame($action, $result->getAction());
+        self::assertSame($params, $result->getParams());
     }
 }

@@ -2,9 +2,6 @@
 
 namespace Sportic\Omniresult\RaceResults\Scrapers;
 
-use ByTIC\GouttePhantomJs\Clients\ClientFactory;
-use Goutte\Client;
-
 /**
  * Class AbstractScraper
  * @package Sportic\Omniresult\Trackmyrace\Scrapers
@@ -36,14 +33,6 @@ abstract class AbstractScraper extends \Sportic\Omniresult\Common\Scrapers\Abstr
             'scraper' => $this,
             'response' => $this->getClient()->getResponse(),
         ];
-    }
-
-    /** @noinspection PhpMissingParentCallCommonInspection
-     * @return Client
-     */
-    protected function generateClient()
-    {
-        return ClientFactory::getGoutteClient();
     }
 
     /**

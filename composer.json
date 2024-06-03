@@ -15,10 +15,12 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "ext-dom": "*",
         "ext-json": "*",
-        "sportic/omniresult-common": "^1.0.49"
+        "sportic/omniresult-common": "^1.0",
+        "symfony/css-selector": "^6.4|^7.0",
+        "bytic/utility": "^1.0"
     },
     "require-dev": {
         "bytic/phpqatools": "^1.0"
@@ -34,12 +36,6 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "ByTIC\\GouttePhantomJs\\Composer\\PhantomInstaller::installPhantomJS"
-        ],
-        "post-update-cmd": [
-            "ByTIC\\GouttePhantomJs\\Composer\\PhantomInstaller::installPhantomJS"
-        ]
     },
     "prefer-stable": true,
     "minimum-stability": "dev",

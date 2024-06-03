@@ -68,8 +68,8 @@ class ResultPage extends AbstractScraper
     public function getCrawlerUri()
     {
         return $this->getCrawlerUriHost()
-            . '/RRPublish/data/list.php?callback=jQuery&r=bib2'
-            . '&eventid=' . $this->getEventId()
+            . '/' . $this->getEventId()
+            . '/RRPublish/data/list?callback=jQuery&r=bib2'
             . '&key=' . $this->getKey()
             . '&listname=' . urlencode($this->getListName())
             . '&contest=' . $this->getContest()

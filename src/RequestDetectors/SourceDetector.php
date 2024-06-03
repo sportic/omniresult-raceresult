@@ -2,6 +2,7 @@
 
 namespace Sportic\Omniresult\RaceResults\RequestDetectors;
 
+use Nip\Utility\Str;
 use Sportic\Omniresult\Common\RequestDetector\Detectors\AbstractSourceDetector;
 
 /**
@@ -30,16 +31,19 @@ class SourceDetector extends AbstractSourceDetector
     protected function detectFromJavascriptTag($content)
     {
 //        <!--    var rrp=new RRPublish(document.getElementById("divRRPublish"), 122816, "results");    -->
+//        <!--    var rrp=new RRPublish(document.getElementById("divRRPublish_results"), 293308, "results");    -->
         $content = str_replace("\n", '', $content);
-        $pos = strpos($content, 'getElementById("divRRPublish"),');
-        if ($pos !== false) {
-            $content = substr($content, $pos+31);
-            $pos = strpos($content, ');');
-            $content = substr($content, 0, $pos);
-            $idEvent = intval($content);
-            $this->getResult()->setValid(true);
-            $this->getResult()->setAction('event');
-            $this->getResult()->setParams(['eventid' => $idEvent]);
+        $search = 'getElementById("divRRPublish';
+        $pos = strpos($content, $search);
+        if ($pos === false) {
+            return;
         }
+        $content = Str::after($content, $search);
+        $content = Str::after($content, '),');
+        $content = Str::before($content, ',');
+        $idEvent = intval($content);
+        $this->getResult()->setValid(true);
+        $this->getResult()->setAction('event');
+        $this->getResult()->setParams(['eventid' => $idEvent]);
     }
 }

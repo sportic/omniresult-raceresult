@@ -22,7 +22,7 @@ class EventPageTest extends AbstractPageTest
         static::assertInstanceOf(Crawler::class, $crawler);
 
         static::assertSame(
-            'https://my.raceresult.com/RRPublish/data/config.php?callback=jQuery&page=results&eventid=122816',
+            'https://my.raceresult.com/122816/RRPublish/data/config?page=results&noVisitor=1',
             $crawler->getUri()
         );
     }

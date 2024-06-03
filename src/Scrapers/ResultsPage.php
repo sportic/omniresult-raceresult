@@ -67,8 +67,8 @@ class ResultsPage extends AbstractScraper
         $list = $races[$contest]->lists[$this->getListName()];
 
         return $this->getCrawlerUriHost()
-            . '/RRPublish/data/list.php?callback=jQuery&page=results'
-            . '&eventid=' . $this->getEventId()
+            . '/' . $this->getEventId()
+            . '/RRPublish/data/list?callback=jQuery&page=results'
             . '&key=' . $this->getKey()
             . '&listname=' . urlencode($this->getListName())
             . '&contest=' . $list['Contest'];
