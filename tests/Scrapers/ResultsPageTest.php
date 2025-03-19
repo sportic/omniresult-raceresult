@@ -29,7 +29,7 @@ class ResultsPageTest extends AbstractPageTest
         $content = $this->scrapeContents([]);
 
         static::assertStringContainsString('Maria Magdalena Veliscu', $content);
-//        file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default.jsonp', $content);
+        file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default.jsonp', $content);
     }
 
     public function testGetCrawlerHtmlAgeGroup()

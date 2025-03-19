@@ -40,7 +40,8 @@ class ResultsPage extends AbstractParser
     {
         $configArray = $this->getConfigArray();
 
-        $this->header = $this->parseHeader($configArray['list']['Fields']);
+        $headerFields = $configArray['DataFields'] ?: $configArray['list']['Fields'];
+        $this->header = $this->parseHeader($headerFields);
         $results = $this->parseResults($configArray['data']);
 
         return [
@@ -119,8 +120,8 @@ class ResultsPage extends AbstractParser
         }
 
         foreach ($this->header as $key => $field) {
-            if (isset($config[$key + 1])) {
-                $parameters[$field] = $config[$key + 1];
+            if (isset($config[$key])) {
+                $parameters[$field] = $config[$key];
             }
         }
 
@@ -149,7 +150,9 @@ class ResultsPage extends AbstractParser
     {
         $fields = [];
         foreach ($config as $key => $configField) {
-            $labelFind = Expression::toResultField($configField['Expression']);
+            $expression = is_string($configField) ? $configField : $configField['Expression'];
+            $labelFind = Expression::toResultField($expression);
+
             if ($labelFind) {
                 $fields[$key] = $labelFind;
             }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Scrapers;
 
@@ -59,9 +60,9 @@ class EventPage extends AbstractScraper
      */
     public function getCrawlerUri()
     {
-        // https://my.raceresult.com/191697/RRPublish/data/config?page=results&noVisitor=1
+        // https://my.raceresult.com/122816/RRPublish/data/config?lang=en&page=results&noVisitor=1&v=1
         return $this->getCrawlerUriHost()
             . '/' . $this->getEventId()
-            . '/RRPublish/data/config?page=results&noVisitor=1';
+            . '/RRPublish/data/config?lang=en&page=results&noVisitor=1&v=1';
     }
 }

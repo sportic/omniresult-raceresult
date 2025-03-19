@@ -32,6 +32,7 @@ abstract class AbstractPageTest extends AbstractTest
         static::assertInstanceOf($this->generateScraperClass(), $scrapper);
 
         $scrapper->execute();
+//        echo $scrapper->getClient()->getHistory()->current()->getUri();
 
         return $scrapper->getClient()->getResponse()->getContent();
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Tests\Parsers;
 
@@ -56,6 +57,7 @@ class ResultsPageTest extends AbstractPageTest
         self::assertEquals('f', $record->getGender());
 
         self::assertEquals('46:46.80', $record->getTime());
+        self::assertEquals('461', $record->getBib());
         self::assertEquals('1', $record->getPosCategory());
     }
 
