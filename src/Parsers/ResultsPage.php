@@ -30,7 +30,7 @@ class ResultsPage extends AbstractParser
 
     protected function setRace(?Race $race)
     {
-        $this->race= $race;
+        $this->race = $race;
     }
 
     /**
@@ -58,34 +58,50 @@ class ResultsPage extends AbstractParser
     {
         $return = [];
         $raceName = $this->race ? $this->race->getName() : null;
-        foreach ($list as $raceList => $categories) {
+        foreach ($list as $raceList => $raceData) {
             $raceList = Races::fromDataName($raceList);
             if ($raceName && $raceList !== $raceName) {
                 continue;
             }
-            $this->parseResultsInCategory($return, $categories);
+            $firstKey = array_key_first($raceData);
+            if (is_int($firstKey)) {
+                $results = $this->parseResultsInList($raceData, []);
+            } else {
+                $results = $this->parseResultsInCategory($raceData);
+            }
+            $return = array_merge($return, $results);
         }
         return $return;
     }
 
     /**
-     * @param $return
      * @param $categories
-     * @return void
+     * @return array
      */
-    protected function parseResultsInCategory(&$return, $categories)
+    protected function parseResultsInCategory($categories)
     {
+        $return = [];
         foreach ($categories as $listName => $items) {
-            $gender = $this->parseGenderFromListName($listName);
-            $category = RaceCategories::isListCategory($listName) ? RaceCategories::fromListName($listName) : false;
-            foreach ($items as $item) {
-                $item['gender'] = $gender;
-                if ($category) {
-                    $item['category'] = $category;
-                }
-                $return[] = $this->parseResult($item);
-            }
+            $defaultParams = [
+                'gender' => $this->parseGenderFromListName($listName),
+                'category' => RaceCategories::isListCategory($listName) ? RaceCategories::fromListName($listName) : false,
+            ];
+            $results = $this->parseResultsInList($items, $defaultParams);
+            $return = array_merge($return, $results);
         }
+        return $return;
+    }
+
+    protected function parseResultsInList($items, $defaultParams = []): array
+    {
+        $return = [];
+        foreach ($items as $item) {
+            foreach ($defaultParams as $key => $value) {
+                $item[$key] = $value;
+            }
+            $return[] = $this->parseResult($item);
+        }
+        return $return;
     }
 
     /**
@@ -94,6 +110,7 @@ class ResultsPage extends AbstractParser
      */
     protected function parseGenderFromListName($listName)
     {
+        $listName = (string)$listName;
         $listName = strtolower($listName);
         if (strpos($listName, 'female')) {
             return 'female';

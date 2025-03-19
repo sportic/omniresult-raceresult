@@ -9,6 +9,7 @@ namespace Sportic\Omniresult\RaceResults\Utility;
 class Expression
 {
     protected static $fieldMap = [
+        'totalrankp' => 'posGen',
         'withstatus([agegrouprankp])' => 'posCategory',
         'withstatus([agegrouprank.p])' => 'posCategory',
         'agegrouprank' => 'posCategory',
@@ -22,6 +23,7 @@ class Expression
         'lastname' => 'lastName',
         'displayname' => 'fullName',
         'gendermf' => 'gender',
+        'sexmf' => 'gender',
         'agegroupnameshort1' => 'category',
         'agegroupname1' => 'category',
         'agegroup.name' => 'category',
@@ -32,6 +34,7 @@ class Expression
         'finish.gun' => 'time',
         'chiptime' => 'time',
         'timetext300' => 'time',
+        'timeorstatus' => 'time',
         'guntime' => 'time_gross',
         'timetext' => 'time_gross',
         'distancefinal&"m"' => 'result'

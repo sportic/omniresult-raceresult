@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use Sportic\Omniresult\RaceResults\RaceResultsClient;
+
 require '../vendor/autoload.php';
 
 $parameters = [
@@ -10,7 +12,7 @@ $parameters = [
     'listname' => 'Result+Lists%7CAge+Group+Results'
 ];
 
-$client = new \Sportic\Omniresult\RaceResults\RaceResultsClient();
+$client = new RaceResultsClient();
 $resultsParser = $client->results($parameters);
 $resultsData = $resultsParser->getContent();
 

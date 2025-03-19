@@ -14,6 +14,7 @@ class RaceCategories
      */
     public static function isListCategory($listName): bool
     {
+        $listName = (string) $listName;
         $listName = strtolower($listName);
         $search = [
             ['male', '-'],

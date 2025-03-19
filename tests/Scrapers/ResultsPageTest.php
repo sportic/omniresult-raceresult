@@ -45,6 +45,19 @@ class ResultsPageTest extends AbstractPageTest
         file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default-agegroup.jsonp', $content);
     }
 
+    public function testGetCrawlerHtmlNoCategories()
+    {
+        $content = $this->scrapeContents([
+            'eventId' => '325564',
+            'key' => '37ee7f73f83a033e444029cbc1e3951b',
+            'contest' => '5',
+            'listname' => 'Lists|Finisher List Cros 3k YoPro'
+        ]);
+
+        static::assertStringContainsString('Luminita Badea', $content);
+        file_put_contents(TEST_FIXTURE_PATH . '/Parsers/ResultsPage/default-nocategories.jsonp', $content);
+    }
+
     protected function generateScraperDefaultParams(): array
     {
         return [

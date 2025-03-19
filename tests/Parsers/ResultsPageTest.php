@@ -54,11 +54,35 @@ class ResultsPageTest extends AbstractPageTest
         self::assertEquals('TIMEA JÓZSA', $record->getFullName());
 
         self::assertEquals('Female U35', $record->getCategory());
-        self::assertEquals('f', $record->getGender());
+        self::assertEquals('female', $record->getGender());
 
         self::assertEquals('46:46.80', $record->getTime());
         self::assertEquals('461', $record->getBib());
         self::assertEquals('1', $record->getPosCategory());
+    }
+
+    public function testGenerateContentNoCategories()
+    {
+        $parametersParsed = static::initParserFromFixturesJsonp(
+            new PageParser(),
+            (new PageScraper()),
+            'ResultsPage/default-nocategories'
+        );
+
+        /** @var Result $record */
+        $records = $parametersParsed->getRecords();
+        self::assertCount(63, $records);
+
+        $record = $records[62];
+
+        self::assertInstanceOf(Result::class, $record);
+        self::assertEquals('Luminita Badea', $record->getFullName());
+
+        self::assertEquals('female', $record->getGender());
+
+        self::assertEquals('0:44:39.9', $record->getTime());
+        self::assertEquals('63', $record->getPosGen());
+        self::assertEquals('1327', $record->getBib());
     }
 
     /**
