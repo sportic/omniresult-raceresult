@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 require '../vendor/autoload.php';
 
 $parameters = [
-    'eventId' => '122816'
+    'eventId' => '217070'
 ];
 
 $client = new \Sportic\Omniresult\RaceResults\RaceResultsClient();

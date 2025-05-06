@@ -7,10 +7,10 @@ use Sportic\Omniresult\RaceResults\RaceResultsClient;
 require '../vendor/autoload.php';
 
 $parameters = [
-    'eventId' => '325564',
-    'key' => '37ee7f73f83a033e444029cbc1e3951b',
-    'contest' => '4',
-    'listname' => 'Lists|Finisher List 10K YoPro'
+    'eventId' => '217070',
+    'key' => '6dbff5d2844d245f12966ec28f5398fb',
+    'contest' => '1',
+    'listname' => 'Result Lists|Age Group Results'
 ];
 
 $client = new RaceResultsClient();
@@ -68,7 +68,8 @@ $results = $resultsData->getRecords();
         <th>PosCat</th>
         <th>Name</th>
         <th>Category</th>
-        <th>Time</th>
+        <th>Time Gross</th>
+        <th>Time Net</th>
         <th>Laps</th>
     </tr>
     </thead>
@@ -82,8 +83,13 @@ $results = $resultsData->getRecords();
                 <td><?= $record->getPosGen(); ?></td>
                 <td><?= $record->getPosGender(); ?></td>
                 <td><?= $record->getPosCategory(); ?></td>
-                <td><?= $record->getFullName(); ?></td>
+                <td>
+                    F: <?= $record->getFirstName(); ?>
+                    L: <?= $record->getLastName(); ?>
+                    | <?= $record->getFullName(); ?>
+                </td>
                 <td><?= $record->getCategory(); ?></td>
+                <td><?= $record->getTimeGross(); ?></td>
                 <td><?= $record->getTime(); ?></td>
                 <td>
                     <?php

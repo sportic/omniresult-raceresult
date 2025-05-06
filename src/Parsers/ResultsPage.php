@@ -60,7 +60,10 @@ class ResultsPage extends AbstractParser
         $raceName = $this->race ? $this->race->getName() : null;
         foreach ($list as $raceList => $raceData) {
             $raceList = Races::fromDataName($raceList);
-            if ($raceName && $raceList !== $raceName) {
+            if (
+                ($raceName && $raceList !== $raceName)
+                && !in_array($raceList, ['f', 'm'])
+            ) {
                 continue;
             }
             $firstKey = array_key_first($raceData);
@@ -92,6 +95,11 @@ class ResultsPage extends AbstractParser
         return $return;
     }
 
+    /**
+     * @param $items
+     * @param $defaultParams
+     * @return array
+     */
     protected function parseResultsInList($items, $defaultParams = []): array
     {
         $return = [];
