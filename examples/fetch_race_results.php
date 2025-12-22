@@ -7,10 +7,10 @@ use Sportic\Omniresult\RaceResults\RaceResultsClient;
 require '../vendor/autoload.php';
 
 $parameters = [
-    'eventId' => '217070',
-    'key' => '6dbff5d2844d245f12966ec28f5398fb',
-    'contest' => '1',
-    'listname' => 'Result Lists|Age Group Results'
+    'eventId' => '345712',
+    'key' => '2c21d28f5e77bac4c1026f6704551271',
+    'contest' => '2',
+    'listname' => 'Result Lists|Rezultate Cursa lungă pe echipe'
 ];
 
 $client = new RaceResultsClient();
@@ -18,7 +18,6 @@ $resultsParser = $client->results($parameters);
 
 /** @var ListContent $resultsData */
 $resultsData = $resultsParser->getContent();
-
 $results = $resultsData->getRecords();
 ?>
 <style>

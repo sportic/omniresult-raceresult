@@ -2,6 +2,7 @@
 
 namespace Sportic\Omniresult\RaceResults\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sportic\Omniresult\RaceResults\RequestDetector;
 
 /**
@@ -17,6 +18,7 @@ class RequestDetectorTest extends AbstractTest
      * @param $params
      * @dataProvider detectProvider
      */
+    #[DataProvider('detectProvider')]
     public function testDetect($url, $valid, $action, $params)
     {
         $result = RequestDetector::detect($url);
@@ -29,7 +31,7 @@ class RequestDetectorTest extends AbstractTest
     /**
      * @return array
      */
-    public function detectProvider()
+    public static function detectProvider()
     {
         return [
             [

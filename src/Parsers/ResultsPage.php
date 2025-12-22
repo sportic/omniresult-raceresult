@@ -163,6 +163,18 @@ class ResultsPage extends AbstractParser
         ];
 
         $parameters['id'] = Helper::encodeResultId($paramsId);
+        $nameParameters = ['fullName', 'firstName', 'lastName'];
+        $hasName = false;
+        foreach ($nameParameters as $nameParameter) {
+            if (!empty($parameters[$nameParameter])) {
+                $hasName = true;
+                break;
+            }
+        }
+        if (!$hasName && !empty($parameters['club'])) {
+            $parameters['firstName'] = $parameters['club'];
+            $parameters['lastName'] = '.';
+        }
 
         return new Result($parameters);
     }

@@ -2,6 +2,7 @@
 
 namespace Sportic\Omniresult\RaceResults\Tests\RequestDetectors;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sportic\Omniresult\Common\RequestDetector\DetectorResult;
 use Sportic\Omniresult\Common\RequestDetector\Detectors\AbstractSourceDetector;
 use Sportic\Omniresult\RaceResults\RequestDetectors\SourceDetector;
@@ -26,6 +27,7 @@ class SourceDetectorTest extends AbstractTest
      * @dataProvider dataDetect
      * @return void
      */
+    #[DataProvider('dataDetect')]
     public function testDetect($url, $action, $params)
     {
         $crawler = AbstractSourceDetector::generateCrawler($url);

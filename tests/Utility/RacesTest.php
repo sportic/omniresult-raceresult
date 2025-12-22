@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sportic\Omniresult\RaceResults\Tests\Utility;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sportic\Omniresult\RaceResults\Tests\AbstractTest;
 use Sportic\Omniresult\RaceResults\Utility\Races;
 
@@ -17,12 +18,13 @@ class RacesTest extends AbstractTest
      * @return void
      * @dataProvider data_fromDataName
      */
+    #[DataProvider('data_fromDataName')]
     public function test_fromDataName($in, $out)
     {
         self::assertSame($out, Races::fromDataName($in));
     }
 
-    public function data_fromDataName(): array
+    public static function data_fromDataName(): array
     {
         return [
             ['#1_test','test'],
